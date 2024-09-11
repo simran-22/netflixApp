@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebaseConfig";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "./firebaseConfig";
 
 const SignUp = () => {
   const [fname, setFname] = useState("");
@@ -12,7 +12,7 @@ const SignUp = () => {
   const submithandler = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      // await createUserWithEmailAndPassword(auth, email, password);
       //   const user = auth.currentUser;
       //   console.log(user);
       //   console.log("user succusfull");

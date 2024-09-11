@@ -2,23 +2,22 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Header from "./Header";
 import "./style.css";
-import { auth } from "./firebaseConfig.js";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
+// import { signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const submitHandler = (e) => {
-    e.preventDeffault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((auth) => {
-        if (auth) {
-          alert("Signed in successfully. Redirecting to dashboard...");
-        }
-      })
-      .catch((error) => alert(error.message));
+    // e.preventDeffault();
+    // signInWithEmailAndPassword(auth, email, password)
+    //   .then((auth) => {
+    //     if (auth) {
+    //       alert("Signed in successfully. Redirecting to dashboard...");
+    //     }
+    //   })
+    //   .catch((error) => alert(error.message));
   };
 
   const emailHandler = (e) => {
