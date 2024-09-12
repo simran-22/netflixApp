@@ -5,7 +5,7 @@ import "./style.css";
 const NewReleased = () => {
   const url =
     "https://api.themoviedb.org/3/movie/upcoming?api_key=" +
-    import.meta.env.MOVIE_KEY;
+    import.meta.env.VITE_MOVIE_KEY;
   const [movie, setMovie] = useState({
     nowPlaying: [],
   });

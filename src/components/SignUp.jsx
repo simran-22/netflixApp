@@ -87,7 +87,7 @@ const SignUp = () => {
                 />
 
                 <button type="submit" className="signbtnstarted-btn">
-                  <Link to={"/signin"}>Sign Up</Link>{" "}
+                  <Link to={"/dashboard"}>Sign Up</Link>{" "}
                 </button>
               </form>
             </div>

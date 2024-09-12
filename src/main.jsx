@@ -30,8 +30,8 @@ const router = createBrowserRouter(
       path: "signup",
       element: <SignUp />,
     },
-  ],
-  { basename: "/netflixApp" }
+  ]
+  // { basename: "/netflixApp" }
 );
 
 createRoot(document.getElementById("root")).render(
