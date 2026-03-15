@@ -1,85 +1,74 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import Header from "./Header";
 import "./style.css";
-
-// import { signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const submitHandler = (e) => {
-    // e.preventDeffault();
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then((auth) => {
-    //     if (auth) {
-    //       alert("Signed in successfully. Redirecting to dashboard...");
-    //     }
-    //   })
-    //   .catch((error) => alert(error.message));
-  };
-
-  const emailHandler = (e) => {
-    console.log(e.target.value);
-    setEmail(e.target.value);
-  };
-
-  const paswordHandler = (e) => {
-    console.log(e.target.value);
-    setPassword(e.target.value);
+    e.preventDefault();
+    setError("");
+    try {
+      signIn(email, password);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
     <>
       <Header />
       <section className="signWraper">
-        <div className="container ">
-          <div className="col-sm-12 ">
-            <div className="signBg ">
+        <div className="container">
+          <div className="col-sm-12">
+            <div className="signBg">
               <div className="signHeading">
                 <h1>Sign In</h1>
               </div>
-              <form className="signinput-field " onSubmit={submitHandler}>
+              {error && (
+                <p style={{ color: "#e87c03", fontSize: "14px", marginBottom: "12px" }}>
+                  {error}
+                </p>
+              )}
+              <form className="signinput-field" onSubmit={submitHandler}>
                 <input
                   className="signin-input"
                   type="text"
                   required
                   spellCheck="false"
-                  onChange={emailHandler}
+                  placeholder="Email or mobile number"
+                  onChange={(e) => setEmail(e.target.value)}
                   value={email}
                 />
-                <label className="emailinput-field" htmlFor="#">
-                  Email or mobile Number
-                </label>
-
                 <input
                   className="paswrd"
                   type="password"
                   required
                   spellCheck="false"
-                  onChange={paswordHandler}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
                   value={password}
-                  id="password"
                 />
-                <label className="pasword-field" htmlFor="#">
-                  Enter your Password
-                </label>
                 <button type="submit" className="signbtnstarted-btn">
-                  <Link to={"/dashboard"}> Submit</Link>
+                  Sign In
                 </button>
-                <h4 className=" btnor text-center">OR</h4>
-                <div className="signbtnstarted-btn codebtn text-white cursor-pointer">
-                  New to Netflix?
-                  <span>
-                    {" "}
-                    <Link to={"/signup"}> Sign Up Now</Link>
-                  </span>
-                </div>
               </form>
-              {/* <div className="forgotPass">
-                <h6>Forgot Password?</h6>
-              </div> */}
+              <h4 className="btnor text-center">OR</h4>
+              <Link to="/signup" style={{ textDecoration: "none" }}>
+                <div
+                  className="signbtnstarted-btn codebtn text-white"
+                  style={{ cursor: "pointer", textAlign: "center" }}
+                >
+                  New to Netflix? <span>Sign Up Now</span>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

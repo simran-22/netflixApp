@@ -1,71 +1,63 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { auth } from "./firebaseConfig";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Header from "./Header";
+import "./style.css";
 
 const SignUp = () => {
+  const location = useLocation();
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(location.state?.email || "");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
 
-  const submithandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
+    setError("");
     try {
-      // await createUserWithEmailAndPassword(auth, email, password);
-      //   const user = auth.currentUser;
-      //   console.log(user);
-      //   console.log("user succusfull");
-    } catch (error) {
-      console.log(error.message);
+      signUp(fname, lname, email, password);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
     }
   };
 
-  const nameHandler = (e) => {
-    console.log(e.target.value);
-    setFname(e.target.value);
-  };
-
-  const lastnameHandler = (e) => {
-    console.log(e.target.value);
-    setLname(e.target.value);
-  };
-
-  const emailHandler = (e) => {
-    console.log(e.target.value);
-    setEmail(e.target.value);
-  };
-  const passwordHandler = (e) => {
-    console.log(e.target.value);
-    setPassword(e.target.value);
-  };
   return (
-    <div>
+    <>
+      <Header />
       <section className="signWraper">
-        <div className="container ">
-          <div className="col-sm-12 ">
-            <div className="signBg ">
+        <div className="container">
+          <div className="col-sm-12">
+            <div className="signBg">
               <div className="signHeading">
-                <h1>Sign In</h1>
+                <h1>Sign Up</h1>
               </div>
-              <form onSubmit={submithandler} className="signinput-field">
+              {error && (
+                <p style={{ color: "#e87c03", fontSize: "14px", marginBottom: "12px" }}>
+                  {error}
+                </p>
+              )}
+              <form onSubmit={submitHandler} className="signinput-field">
                 <input
                   className="signin-input"
                   type="text"
                   required
                   spellCheck="false"
-                  placeholder="FName"
+                  placeholder="First Name"
                   value={fname}
-                  onChange={nameHandler}
+                  onChange={(e) => setFname(e.target.value)}
                 />
                 <input
                   className="signin-input"
                   type="text"
                   required
                   spellCheck="false"
-                  placeholder="LName"
-                  onChange={lastnameHandler}
+                  placeholder="Last Name"
                   value={lname}
+                  onChange={(e) => setLname(e.target.value)}
                 />
                 <input
                   className="email"
@@ -73,8 +65,8 @@ const SignUp = () => {
                   required
                   spellCheck="false"
                   placeholder="Email"
-                  onChange={emailHandler}
                   value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   className="paswrd"
@@ -82,19 +74,32 @@ const SignUp = () => {
                   required
                   spellCheck="false"
                   placeholder="Password"
-                  onChange={passwordHandler}
+                  minLength={6}
                   value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-
                 <button type="submit" className="signbtnstarted-btn">
-                  <Link to={"/dashboard"}>Sign Up</Link>{" "}
+                  Sign Up
                 </button>
               </form>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  textAlign: "center",
+                  marginTop: "20px",
+                  fontSize: "15px",
+                }}
+              >
+                Already have an account?{" "}
+                <Link to="/signin" style={{ color: "#fff", fontWeight: "600" }}>
+                  Sign In
+                </Link>
+              </p>
             </div>
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
